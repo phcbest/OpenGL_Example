@@ -110,7 +110,7 @@ private fun decodeAndFixBitmap(input: InputStream): Bitmap {
         ?: throw IllegalStateException("Failed to decode bitmap")
 
     val exif = ExifInterface(bytes.inputStream())
-    val oriented = when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+    return when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
         ExifInterface.ORIENTATION_ROTATE_90 -> rotate(raw, 90f)
         ExifInterface.ORIENTATION_ROTATE_180 -> rotate(raw, 180f)
         ExifInterface.ORIENTATION_ROTATE_270 -> rotate(raw, 270f)
@@ -118,7 +118,6 @@ private fun decodeAndFixBitmap(input: InputStream): Bitmap {
         ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(raw, horizontal = false, vertical = true)
         else -> raw
     }
-    return oriented
 }
 
 private fun rotate(bitmap: Bitmap, degree: Float): Bitmap {
@@ -218,10 +217,10 @@ private class ImageRenderer : GLSurfaceView.Renderer {
             imageAspect / viewAspect to 1f
         }
         vertexBuffer = makeBuffer(floatArrayOf(
-            -xScale, -yScale, 0f, 0f,
-            xScale, -yScale, 1f, 0f,
-            -xScale, yScale, 0f, 1f,
-            xScale, yScale, 1f, 1f
+            -xScale, -yScale, 0f, 1f,
+            xScale, -yScale, 1f, 1f,
+            -xScale, yScale, 0f, 0f,
+            xScale, yScale, 1f, 0f
         ))
     }
 
@@ -242,10 +241,6 @@ private class ImageRenderer : GLSurfaceView.Renderer {
         }
     }
 
-    private fun updateVerticesIfNeeded() {
-        updateVertices()
-    }
-
     private fun makeBuffer(data: FloatArray): FloatBuffer =
         ByteBuffer.allocateDirect(data.size * 4)
             .order(ByteOrder.nativeOrder())
@@ -256,10 +251,10 @@ private class ImageRenderer : GLSurfaceView.Renderer {
             }
 
     private fun fullVertices(): FloatArray = floatArrayOf(
-        -1f, -1f, 0f, 0f,
-        1f, -1f, 1f, 0f,
-        -1f, 1f, 0f, 1f,
-        1f, 1f, 1f, 1f
+        -1f, -1f, 0f, 1f,
+        1f, -1f, 1f, 1f,
+        -1f, 1f, 0f, 0f,
+        1f, 1f, 1f, 0f
     )
 
     private companion object {
