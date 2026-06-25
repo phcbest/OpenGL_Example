@@ -45,9 +45,6 @@ class ImageGlDisplayActivity : ComponentActivity() {
         }
     }
 
-    companion object {
-        const val EXTRA_IMAGE_URI = "extra_image_uri"
-    }
 }
 
 @Composable
@@ -133,8 +130,11 @@ private fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap
 }
 
 private class ImageRenderer : GLSurfaceView.Renderer {
-    @Volatile private var bitmap: Bitmap? = null
-    @Volatile private var bitmapDirty = false
+    @Volatile
+    private var bitmap: Bitmap? = null
+
+    @Volatile
+    private var bitmapDirty = false
     private var textureId = 0
     private var program = 0
     private var positionHandle = 0
@@ -216,12 +216,14 @@ private class ImageRenderer : GLSurfaceView.Renderer {
         } else {
             imageAspect / viewAspect to 1f
         }
-        vertexBuffer = makeBuffer(floatArrayOf(
-            -xScale, -yScale, 0f, 1f,
-            xScale, -yScale, 1f, 1f,
-            -xScale, yScale, 0f, 0f,
-            xScale, yScale, 1f, 0f
-        ))
+        vertexBuffer = makeBuffer(
+            floatArrayOf(
+                -xScale, -yScale, 0f, 1f,
+                xScale, -yScale, 1f, 1f,
+                -xScale, yScale, 0f, 0f,
+                xScale, yScale, 1f, 0f
+            )
+        )
     }
 
     private fun createProgram(vertexShaderSource: String, fragmentShaderSource: String): Int {
