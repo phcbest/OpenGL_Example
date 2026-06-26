@@ -303,7 +303,7 @@ private class GestureImageRenderer : GLSurfaceView.Renderer {
     private var viewAspect = 1f
     private var baseHalfWidth = 1f
     private var baseHalfHeight = 1f
-    private var scale = MIN_SCALE
+    private var scale = INITIAL_SCALE
     private var rotationDegrees = 0f
     private var translationX = 0f
     private var translationY = 0f
@@ -418,7 +418,7 @@ private class GestureImageRenderer : GLSurfaceView.Renderer {
     }
 
     private fun resetTransformLocked() {
-        scale = MIN_SCALE
+        scale = INITIAL_SCALE
         rotationDegrees = 0f
         translationX = 0f
         translationY = 0f
@@ -526,6 +526,7 @@ private class GestureImageRenderer : GLSurfaceView.Renderer {
     )
 
     private companion object {
+        const val INITIAL_SCALE = 1f
         const val MIN_SCALE = 0.2f
         const val MAX_SCALE = 5f
 
