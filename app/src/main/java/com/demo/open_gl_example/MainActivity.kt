@@ -52,8 +52,22 @@ private fun HomeScreen() {
             item {
                 GlImagePickerWithGesture()
             }
+            item {
+                GlImagePickerLiquefyGesture()
+            }
         }
     }
+}
+
+@Composable
+private fun GlImagePickerLiquefyGesture() {
+    Button(
+        onClick = {
+
+        }) {
+        Text("GL 显示页 液化手势操作")
+    }
+
 }
 
 @Composable
